@@ -1,8 +1,11 @@
 import http from 'http';
 import React from 'react';
-import { renderToString } from 'react-dom/server';
+import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { StaticRouter } from 'react-router-dom';
+
 import Pages from './pages/containers/Page.jsx';
+import Layout from './pages/components/Layout.jsx';
+
 
 function requestHandler(req, res){
     const context = {};
@@ -25,7 +28,14 @@ function requestHandler(req, res){
     }
 
 
-    res.write(html);
+    res.write(
+        renderToStaticMarkup(
+            <Layout 
+                title="Aplicación"
+                content={html}
+            />
+        )
+    );
     res.end();
 }
 
